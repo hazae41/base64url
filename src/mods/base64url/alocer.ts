@@ -13,13 +13,13 @@ export async function fromBufferOrAlocer() {
 export async function fromAlocer(): Promise<Adapter> {
   await Alocer.initBundledOnce()
 
-  function tryEncode(bytes: Uint8Array) {
-    return Result.runAndWrapSync(() => Alocer.base64url_encode(bytes)).mapErrSync(EncodeError.from)
+  function tryEncodeUnpadded(bytes: Uint8Array) {
+    return Result.runAndWrapSync(() => Alocer.base64url_encode_unpadded(bytes)).mapErrSync(EncodeError.from)
   }
 
-  function tryDecode(text: string) {
-    return Result.runAndWrapSync(() => Alocer.base64url_decode(text)).mapErrSync(DecodeError.from)
+  function tryDecodeUnpadded(text: string) {
+    return Result.runAndWrapSync(() => Alocer.base64url_decode_unpadded(text)).mapErrSync(DecodeError.from)
   }
 
-  return { tryEncode, tryDecode }
+  return { tryEncodeUnpadded, tryDecodeUnpadded }
 }

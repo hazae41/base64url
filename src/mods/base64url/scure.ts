@@ -12,13 +12,13 @@ export function fromBufferOrScure() {
 
 export function fromScure(): Adapter {
 
-  function tryEncode(bytes: Uint8Array) {
+  function tryEncodeUnpadded(bytes: Uint8Array) {
     return Result.runAndWrapSync(() => base64urlnopad.encode(bytes)).mapErrSync(EncodeError.from)
   }
 
-  function tryDecode(text: string) {
+  function tryDecodeUnpadded(text: string) {
     return Result.runAndWrapSync(() => base64urlnopad.decode(text)).mapSync(Copied.new).mapErrSync(DecodeError.from)
   }
 
-  return { tryEncode, tryDecode }
+  return { tryEncodeUnpadded, tryDecodeUnpadded }
 }
