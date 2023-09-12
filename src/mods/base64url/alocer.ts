@@ -1,6 +1,6 @@
 import type { Alocer } from "@hazae41/alocer"
 import { Result } from "@hazae41/result"
-import { Adapter } from "./base64url.js"
+import { Adapter } from "./adapter.js"
 import { fromBuffer } from "./buffer.js"
 import { DecodeError, EncodeError } from "./errors.js"
 

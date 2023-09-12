@@ -1,6 +1,6 @@
 import { Result } from "@hazae41/result"
 import type { base64urlnopad } from "@scure/base"
-import { Adapter, Copied } from "./base64url.js"
+import { Adapter, Copied } from "./adapter.js"
 import { fromBuffer } from "./buffer.js"
 import { DecodeError, EncodeError } from "./errors.js"
 
