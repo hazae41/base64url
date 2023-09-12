@@ -18,31 +18,26 @@ npm i @hazae41/base64url
 
 ### Alocer (WebAssembly)
 
+```bash
+npm i @hazae41/alocer
+```
+
 ```typescript
 import { Base64URL } from "@hazae41/base64url"
-import { Alocer } from "@hazae41/alocer"
 
-await Alocer.initBundledOnce()
-const base64url = Base64URL.fromAlocer(Alocer)
-
-/**
- * Set it globally (optional)
- **/
-Base64URL.set(base64url)
+Base64URL.set(await Base64URL.fromAlocer())
 ```
 
 ### Scure (JavaScript)
 
+```bash
+npm i @scure/base
+```
+
 ```typescript
 import { Base64URL } from "@hazae41/base64url"
-import * as scure from "@scure/base"
 
-const base64url = Base64URL.fromScure(scure.base64urlnopad)
-
-/**
- * Set it globally (optional)
- **/
-Base64URL.set(base64url)
+Base64URL.set(Base64URL.fromScure())
 ```
 
 ## Usage
@@ -50,6 +45,6 @@ Base64URL.set(base64url)
 ### Direct
 
 ```tsx
-const encoded: string = base64url.tryEncode(new Uint8Array([1,2,3,4,5])).unwrap()
-const decoded: Uint8Array = base64url.tryDecode(encoded).unwrap().copy()
+const encoded: string = Base64URL.get().tryEncode(new Uint8Array([1,2,3,4,5])).unwrap()
+const decoded: Uint8Array = Base64URL.get().tryDecode(encoded).unwrap().copyAndDispose()
 ```
