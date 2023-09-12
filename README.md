@@ -16,6 +16,14 @@ npm i @hazae41/base64url
 
 ## Getting started
 
+### Buffer (NodeJS)
+
+```typescript
+import { Base64URL } from "@hazae41/base64url"
+
+Base64URL.set(Base64URL.fromBuffer())
+```
+
 ### Alocer (WebAssembly)
 
 ```bash
