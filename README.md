@@ -25,7 +25,7 @@ npm i @hazae41/alocer
 ```typescript
 import { Base64URL } from "@hazae41/base64url"
 
-Base64URL.set(await Base64URL.fromAlocer())
+Base64URL.set(await Base64URL.fromBufferOrAlocer())
 ```
 
 ### Scure (JavaScript)
@@ -37,7 +37,7 @@ npm i @scure/base
 ```typescript
 import { Base64URL } from "@hazae41/base64url"
 
-Base64URL.set(Base64URL.fromScure())
+Base64URL.set(Base64URL.fromBufferOrScure())
 ```
 
 ## Usage
