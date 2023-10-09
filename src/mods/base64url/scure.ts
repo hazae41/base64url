@@ -1,6 +1,7 @@
+import { Box, Copiable, Copied } from "@hazae41/box"
 import { Result } from "@hazae41/result"
 import { base64urlnopad } from "@scure/base"
-import { Adapter, Copied } from "./adapter.js"
+import { Adapter } from "./adapter.js"
 import { fromBuffer } from "./buffer.js"
 import { DecodeError, EncodeError } from "./errors.js"
 
@@ -12,8 +13,8 @@ export function fromBufferOrScure() {
 
 export function fromScure(): Adapter {
 
-  function tryEncodeUnpadded(bytes: Uint8Array) {
-    return Result.runAndWrapSync(() => base64urlnopad.encode(bytes)).mapErrSync(EncodeError.from)
+  function tryEncodeUnpadded(bytes: Box<Copiable>) {
+    return Result.runAndWrapSync(() => base64urlnopad.encode(bytes.get().bytes)).mapErrSync(EncodeError.from)
   }
 
   function tryDecodeUnpadded(text: string) {
