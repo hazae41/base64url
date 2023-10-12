@@ -1,4 +1,4 @@
-import { Box, Copiable } from "@hazae41/box"
+import { BytesOrCopiable, Copiable } from "@hazae41/box"
 import { Option, Some } from "@hazae41/option"
 import { Result } from "@hazae41/result"
 import { fromBuffer } from "./buffer.js"
@@ -15,7 +15,7 @@ export function set(value?: Adapter) {
 }
 
 export interface Adapter {
-  tryEncodeUnpadded(bytes: Box<Copiable>): Result<string, EncodeError>
+  tryEncodeUnpadded(bytes: BytesOrCopiable): Result<string, EncodeError>
   tryDecodeUnpadded(text: string): Result<Copiable, DecodeError>
 }
 

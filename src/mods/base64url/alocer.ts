@@ -1,5 +1,5 @@
 import { Alocer } from "@hazae41/alocer"
-import { Box, Copiable } from "@hazae41/box"
+import { Box, BytesOrCopiable } from "@hazae41/box"
 import { Result } from "@hazae41/result"
 import { Adapter } from "./adapter.js"
 import { fromBuffer } from "./buffer.js"
@@ -14,12 +14,26 @@ export async function fromBufferOrAlocer() {
 export async function fromAlocer(): Promise<Adapter> {
   await Alocer.initBundledOnce()
 
-  function tryEncodeUnpadded(bytes: Box<Copiable>) {
-    return Result.runAndWrapSync(() => Alocer.base64url_encode_unpadded(bytes)).mapErrSync(EncodeError.from)
+  function getMemory(bytesOrCopiable: BytesOrCopiable) {
+    if (bytesOrCopiable instanceof Alocer.Memory)
+      return Box.greedy(bytesOrCopiable)
+    if (bytesOrCopiable instanceof Uint8Array)
+      return Box.new(new Alocer.Memory(bytesOrCopiable))
+    return Box.new(new Alocer.Memory(bytesOrCopiable.bytes))
+  }
+
+  function tryEncodeUnpadded(bytes: BytesOrCopiable) {
+    using memory = getMemory(bytes)
+
+    return Result.runAndWrapSync(() => {
+      return Alocer.base64url_encode_unpadded(memory.inner)
+    }).mapErrSync(EncodeError.from)
   }
 
   function tryDecodeUnpadded(text: string) {
-    return Result.runAndWrapSync(() => Alocer.base64url_decode_unpadded(text)).mapErrSync(DecodeError.from)
+    return Result.runAndWrapSync(() => {
+      return Alocer.base64url_decode_unpadded(text)
+    }).mapErrSync(DecodeError.from)
   }
 
   return { tryEncodeUnpadded, tryDecodeUnpadded }
