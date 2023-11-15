@@ -17,7 +17,7 @@ export function fromBuffer(): Adapter {
 
   function tryEncodeUnpadded(bytes: BytesOrCopiable) {
     return Result.runAndWrapSync(() => {
-      return Buffers.fromView(getBytes(bytes)).toString("base64url")
+      return encodeUnpaddedOrThrow(bytes)
     }).mapErrSync(EncodeError.from)
   }
 
@@ -27,7 +27,7 @@ export function fromBuffer(): Adapter {
 
   function tryDecodeUnpadded(text: string) {
     return Result.runAndWrapSync(() => {
-      return new Copied(Bytes.fromView(Buffer.from(text, "base64url")))
+      return decodeUnpaddedOrThrow(text)
     }).mapErrSync(DecodeError.from)
   }
 

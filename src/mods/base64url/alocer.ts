@@ -29,10 +29,8 @@ export async function fromAlocer(): Promise<Adapter> {
   }
 
   function tryEncodeUnpadded(bytes: BytesOrCopiable) {
-    using memory = getMemory(bytes)
-
     return Result.runAndWrapSync(() => {
-      return Alocer.base64url_encode_unpadded(memory.inner)
+      return encodeUnpaddedOrThrow(bytes)
     }).mapErrSync(EncodeError.from)
   }
 
@@ -42,7 +40,7 @@ export async function fromAlocer(): Promise<Adapter> {
 
   function tryDecodeUnpadded(text: string) {
     return Result.runAndWrapSync(() => {
-      return Alocer.base64url_decode_unpadded(text)
+      return decodeUnpaddedOrThrow(text)
     }).mapErrSync(DecodeError.from)
   }
 

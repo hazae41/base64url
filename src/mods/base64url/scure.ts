@@ -23,7 +23,7 @@ export function fromScure(): Adapter {
 
   function tryEncodeUnpadded(bytes: BytesOrCopiable) {
     return Result.runAndWrapSync(() => {
-      return base64urlnopad.encode(getBytes(bytes))
+      return encodeUnpaddedOrThrow(bytes)
     }).mapErrSync(EncodeError.from)
   }
 
@@ -33,7 +33,7 @@ export function fromScure(): Adapter {
 
   function tryDecodeUnpadded(text: string) {
     return Result.runAndWrapSync(() => {
-      return new Copied(base64urlnopad.decode(text))
+      return decodeUnpaddedOrThrow(text)
     }).mapErrSync(DecodeError.from)
   }
 
