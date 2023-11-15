@@ -17,17 +17,25 @@ export function fromScure(): Adapter {
     return "bytes" in bytes ? bytes.bytes : bytes
   }
 
+  function encodeUnpaddedOrThrow(bytes: BytesOrCopiable) {
+    return base64urlnopad.encode(getBytes(bytes))
+  }
+
   function tryEncodeUnpadded(bytes: BytesOrCopiable) {
     return Result.runAndWrapSync(() => {
       return base64urlnopad.encode(getBytes(bytes))
     }).mapErrSync(EncodeError.from)
   }
 
-  function tryDecodeUnpadded(text: string) {
-    return Result.runAndWrapSync(() => {
-      return base64urlnopad.decode(text)
-    }).mapSync(Copied.new).mapErrSync(DecodeError.from)
+  function decodeUnpaddedOrThrow(text: string) {
+    return new Copied(base64urlnopad.decode(text))
   }
 
-  return { tryEncodeUnpadded, tryDecodeUnpadded }
+  function tryDecodeUnpadded(text: string) {
+    return Result.runAndWrapSync(() => {
+      return new Copied(base64urlnopad.decode(text))
+    }).mapErrSync(DecodeError.from)
+  }
+
+  return { encodeUnpaddedOrThrow, tryEncodeUnpadded, decodeUnpaddedOrThrow, tryDecodeUnpadded }
 }
