@@ -24,16 +24,17 @@ import { Base64Url } from "@hazae41/base64url"
 Base64Url.set(Base64Url.fromBuffer())
 ```
 
-### Alocer (WebAssembly)
+### WebAssembly
 
 ```bash
-npm i @hazae41/alocer
+npm i @hazae41/base64.wasm"
 ```
 
 ```typescript
 import { Base64Url } from "@hazae41/base64url"
+import { Base64Wasm } from "@hazae41/base64.wasm"
 
-Base64Url.set(await Base64Url.fromBufferOrAlocer())
+Base64Url.set(await Base64Url.fromBufferOrWasm(Base64Wasm))
 ```
 
 ### Scure (JavaScript)
@@ -44,8 +45,9 @@ npm i @scure/base
 
 ```typescript
 import { Base64Url } from "@hazae41/base64url"
+import Scure from "@scure/base"
 
-Base64Url.set(Base64Url.fromBufferOrScure())
+Base64Url.set(Base64Url.fromBufferOrScure(Scure))
 ```
 
 ## Usage
@@ -53,6 +55,9 @@ Base64Url.set(Base64Url.fromBufferOrScure())
 ### Direct
 
 ```tsx
-const encoded: string = Base64Url.get().tryEncode(new Uint8Array([1,2,3,4,5])).unwrap()
-const decoded: Uint8Array = Base64Url.get().tryDecode(encoded).unwrap().copyAndDispose()
+const encoded: string = Base64Url.get().getOrThrow().encodeOrThrow(new Uint8Array([1,2,3,4,5]))
+
+using memory = Base64Url.get().getOrThrow().decodeOrThrow(encoded)
+
+const decoded: Uint8Array = memory.bytes.slice()
 ```
