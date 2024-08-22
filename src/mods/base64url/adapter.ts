@@ -1,26 +1,19 @@
-import { BytesOrCopiable, Copiable } from "@hazae41/box"
-import { Nullable } from "@hazae41/option"
-import { Result } from "@hazae41/result"
+import { Nullable, Option, Some } from "@hazae41/option"
+import { BytesOrCopiable, Copiable } from "libs/copiable/index.js"
 import { fromBuffer } from "./buffer.js"
-import { DecodeError, EncodeError } from "./errors.js"
 
-let global: Nullable<Adapter> = fromBuffer()
+let global: Option<Adapter> = new Some(fromBuffer())
 
 export function get() {
-  if (global == null)
-    throw new Error("No Base64Url adapter found")
   return global
 }
 
-export function set(value?: Nullable<Adapter>) {
-  global = value
+export function set(value: Nullable<Adapter>) {
+  global = Option.wrap(value)
 }
 
 export interface Adapter {
   encodeUnpaddedOrThrow(bytes: BytesOrCopiable): string
-  tryEncodeUnpadded(bytes: BytesOrCopiable): Result<string, EncodeError>
-
   decodeUnpaddedOrThrow(text: string): Copiable
-  tryDecodeUnpadded(text: string): Result<Copiable, DecodeError>
 }
 

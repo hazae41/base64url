@@ -1,12 +1,9 @@
-import { BytesOrCopiable, Copied } from "@hazae41/box"
-import { Result } from "@hazae41/result"
 import { Buffers } from "libs/buffers/buffers.js"
 import { Bytes } from "libs/bytes/bytes.js"
+import { BytesOrCopiable, Copied } from "libs/copiable/index.js"
 import { Adapter } from "./adapter.js"
-import { DecodeError, EncodeError } from "./errors.js"
 
-export function fromBuffer(): Adapter {
-
+export function fromBuffer() {
   function getBytes(bytes: BytesOrCopiable) {
     return "bytes" in bytes ? bytes.bytes : bytes
   }
@@ -15,21 +12,11 @@ export function fromBuffer(): Adapter {
     return Buffers.fromView(getBytes(bytes)).toString("base64url")
   }
 
-  function tryEncodeUnpadded(bytes: BytesOrCopiable) {
-    return Result.runAndWrapSync(() => {
-      return encodeUnpaddedOrThrow(bytes)
-    }).mapErrSync(EncodeError.from)
-  }
-
   function decodeUnpaddedOrThrow(text: string) {
     return new Copied(Bytes.fromView(Buffer.from(text, "base64url")))
   }
 
-  function tryDecodeUnpadded(text: string) {
-    return Result.runAndWrapSync(() => {
-      return decodeUnpaddedOrThrow(text)
-    }).mapErrSync(DecodeError.from)
-  }
+  const adapter = { encodeUnpaddedOrThrow, decodeUnpaddedOrThrow }
 
-  return { encodeUnpaddedOrThrow, tryEncodeUnpadded, decodeUnpaddedOrThrow, tryDecodeUnpadded }
+  return adapter satisfies Adapter
 }

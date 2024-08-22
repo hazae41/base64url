@@ -1,41 +1,38 @@
-import { BytesOrCopiable, Copied } from "@hazae41/box"
-import { Result } from "@hazae41/result"
-import { base64urlnopad } from "@scure/base"
+import type Scure from "@scure/base"
+import { BytesOrCopiable, Copied } from "libs/copiable/index.js"
 import { Adapter } from "./adapter.js"
 import { fromBuffer } from "./buffer.js"
-import { DecodeError, EncodeError } from "./errors.js"
 
-export function fromBufferOrScure() {
+export function fromBufferOrScure(scure: typeof Scure) {
   if ("process" in globalThis)
     return fromBuffer()
-  return fromScure()
+  return fromScure(scure)
 }
 
-export function fromScure(): Adapter {
+export function fromScure(scure: typeof Scure) {
+  const { base64url, base64urlnopad } = scure
 
   function getBytes(bytes: BytesOrCopiable) {
     return "bytes" in bytes ? bytes.bytes : bytes
+  }
+
+  function encodePaddedOrThrow(bytes: BytesOrCopiable) {
+    return base64url.encode(getBytes(bytes))
+  }
+
+  function decodePaddedOrThrow(text: string) {
+    return new Copied(base64url.decode(text))
   }
 
   function encodeUnpaddedOrThrow(bytes: BytesOrCopiable) {
     return base64urlnopad.encode(getBytes(bytes))
   }
 
-  function tryEncodeUnpadded(bytes: BytesOrCopiable) {
-    return Result.runAndWrapSync(() => {
-      return encodeUnpaddedOrThrow(bytes)
-    }).mapErrSync(EncodeError.from)
-  }
-
   function decodeUnpaddedOrThrow(text: string) {
     return new Copied(base64urlnopad.decode(text))
   }
 
-  function tryDecodeUnpadded(text: string) {
-    return Result.runAndWrapSync(() => {
-      return decodeUnpaddedOrThrow(text)
-    }).mapErrSync(DecodeError.from)
-  }
+  const adapter = { encodePaddedOrThrow, decodePaddedOrThrow, encodeUnpaddedOrThrow, decodeUnpaddedOrThrow }
 
-  return { encodeUnpaddedOrThrow, tryEncodeUnpadded, decodeUnpaddedOrThrow, tryDecodeUnpadded }
+  return adapter satisfies Adapter
 }

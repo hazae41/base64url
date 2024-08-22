@@ -1,6 +1,6 @@
-# Base64URL
+# Base64Url
 
-Base64URL adapter for WebAssembly and JS implementations
+Base64Url adapter for WebAssembly and JS implementations
 
 ```bash
 npm i @hazae41/base64url
@@ -19,9 +19,9 @@ npm i @hazae41/base64url
 ### Buffer (NodeJS)
 
 ```typescript
-import { Base64URL } from "@hazae41/base64url"
+import { Base64Url } from "@hazae41/base64url"
 
-Base64URL.set(Base64URL.fromBuffer())
+Base64Url.set(Base64Url.fromBuffer())
 ```
 
 ### Alocer (WebAssembly)
@@ -31,9 +31,9 @@ npm i @hazae41/alocer
 ```
 
 ```typescript
-import { Base64URL } from "@hazae41/base64url"
+import { Base64Url } from "@hazae41/base64url"
 
-Base64URL.set(await Base64URL.fromBufferOrAlocer())
+Base64Url.set(await Base64Url.fromBufferOrAlocer())
 ```
 
 ### Scure (JavaScript)
@@ -43,9 +43,9 @@ npm i @scure/base
 ```
 
 ```typescript
-import { Base64URL } from "@hazae41/base64url"
+import { Base64Url } from "@hazae41/base64url"
 
-Base64URL.set(Base64URL.fromBufferOrScure())
+Base64Url.set(Base64Url.fromBufferOrScure())
 ```
 
 ## Usage
@@ -53,6 +53,6 @@ Base64URL.set(Base64URL.fromBufferOrScure())
 ### Direct
 
 ```tsx
-const encoded: string = Base64URL.get().tryEncode(new Uint8Array([1,2,3,4,5])).unwrap()
-const decoded: Uint8Array = Base64URL.get().tryDecode(encoded).unwrap().copyAndDispose()
+const encoded: string = Base64Url.get().tryEncode(new Uint8Array([1,2,3,4,5])).unwrap()
+const decoded: Uint8Array = Base64Url.get().tryDecode(encoded).unwrap().copyAndDispose()
 ```
