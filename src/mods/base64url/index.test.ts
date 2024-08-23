@@ -5,7 +5,7 @@ import { fromScure } from "./scure.js"
 import { fromWasm } from "./wasm.js"
 
 import { Base64Wasm } from "@hazae41/base64.wasm"
-import Scure from "@scure/base"
+import * as Scure from "@scure/base"
 
 test("encode and decode", async ({ message }) => {
   const scure = fromScure(Scure)
