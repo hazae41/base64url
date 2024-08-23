@@ -4,6 +4,7 @@ import { BytesOrCopiable, Copied } from "libs/copiable/index.js"
 import { Adapter } from "./adapter.js"
 
 export function fromBuffer() {
+
   function getBytes(bytes: BytesOrCopiable) {
     return "bytes" in bytes ? bytes.bytes : bytes
   }
