@@ -17,7 +17,5 @@ export function fromBuffer() {
     return new Copied(Bytes.fromView(Buffer.from(text, "base64url")))
   }
 
-  const adapter = { encodeUnpaddedOrThrow, decodeUnpaddedOrThrow }
-
-  return adapter satisfies Adapter
+  return { encodeUnpaddedOrThrow, decodeUnpaddedOrThrow } satisfies Adapter
 }
