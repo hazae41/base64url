@@ -45,7 +45,7 @@ npm i @scure/base
 
 ```typescript
 import { Base64Url } from "@hazae41/base64url"
-import Scure from "@scure/base"
+import * as Scure from "@scure/base"
 
 Base64Url.set(Base64Url.fromBufferOrScure(Scure))
 ```
