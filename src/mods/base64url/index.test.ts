@@ -13,14 +13,16 @@ test("encode and decode", async ({ message }) => {
   const encodeda = scure.encodeUnpaddedOrThrow(new Uint8Array([1, 2, 3, 4, 5, 6, 7]))
   using decodeda = scure.decodeUnpaddedOrThrow(encodeda)
 
-  console.log(encodeda, decodeda)
+  console.log(encodeda, decodeda.bytes)
 
-  const wasm = await fromWasm(Base64Wasm)
+  await Base64Wasm.initBundled()
+
+  const wasm = fromWasm(Base64Wasm)
 
   const encodedb = wasm.encodeUnpaddedOrThrow(new Uint8Array([1, 2, 3, 4, 5, 6, 7]))
   using decodedb = wasm.decodeUnpaddedOrThrow(encodedb)
 
-  console.log(encodedb, decodedb)
+  console.log(encodedb, decodedb.bytes)
 
   assert(encodeda === encodedb)
   assert(Buffer.from(decodeda.bytes).equals(Buffer.from(decodedb.bytes)))
