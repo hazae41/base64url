@@ -32,7 +32,5 @@ export function fromScure(scure: typeof Scure) {
     return new Copied(base64urlnopad.decode(text))
   }
 
-  const adapter = { encodePaddedOrThrow, decodePaddedOrThrow, encodeUnpaddedOrThrow, decodeUnpaddedOrThrow }
-
-  return adapter satisfies Adapter
+  return { encodePaddedOrThrow, decodePaddedOrThrow, encodeUnpaddedOrThrow, decodeUnpaddedOrThrow } satisfies Adapter
 }

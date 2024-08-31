@@ -13,9 +13,20 @@ export function fromBuffer() {
     return Buffers.fromView(getBytes(bytes)).toString("base64url")
   }
 
+  function encodePaddedOrThrow(bytes: BytesOrCopiable) {
+    const unpadded = Buffers.fromView(getBytes(bytes)).toString("base64url")
+    const padded = unpadded + "=".repeat((4 - unpadded.length % 4) % 4)
+
+    return padded
+  }
+
   function decodeUnpaddedOrThrow(text: string) {
     return new Copied(Bytes.fromView(Buffer.from(text, "base64url")))
   }
 
-  return { encodeUnpaddedOrThrow, decodeUnpaddedOrThrow } satisfies Adapter
+  function decodePaddedOrThrow(text: string) {
+    return new Copied(Bytes.fromView(Buffer.from(text, "base64url")))
+  }
+
+  return { encodePaddedOrThrow, decodePaddedOrThrow, encodeUnpaddedOrThrow, decodeUnpaddedOrThrow } satisfies Adapter
 }

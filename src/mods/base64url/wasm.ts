@@ -41,7 +41,5 @@ export function fromWasm(wasm: typeof Base64Wasm) {
     return base64url_decode_unpadded(text)
   }
 
-  const adapter = { encodePaddedOrThrow, decodePaddedOrThrow, encodeUnpaddedOrThrow, decodeUnpaddedOrThrow }
-
-  return adapter satisfies Adapter
+  return { encodePaddedOrThrow, decodePaddedOrThrow, encodeUnpaddedOrThrow, decodeUnpaddedOrThrow } satisfies Adapter
 }

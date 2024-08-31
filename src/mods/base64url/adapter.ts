@@ -13,7 +13,10 @@ export function set(value: Nullable<Adapter>) {
 }
 
 export interface Adapter {
+  encodePaddedOrThrow(bytes: BytesOrCopiable): string
   encodeUnpaddedOrThrow(bytes: BytesOrCopiable): string
+
+  decodePaddedOrThrow(text: string): Copiable
   decodeUnpaddedOrThrow(text: string): Copiable
 }
 
