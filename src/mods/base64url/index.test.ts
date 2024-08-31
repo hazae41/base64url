@@ -10,8 +10,8 @@ import * as Scure from "@scure/base"
 test("encode and decode", async ({ message }) => {
   const scure = fromScure(Scure)
 
-  const encodeda = scure.encodeUnpaddedOrThrow(new Uint8Array([1, 2, 3, 4, 5, 6, 7]))
-  using decodeda = scure.decodeUnpaddedOrThrow(encodeda)
+  const encodeda = scure.encodePaddedOrThrow(new Uint8Array([1, 2, 3, 4, 5, 6, 7]))
+  using decodeda = scure.decodePaddedOrThrow(encodeda)
 
   console.log(encodeda, decodeda.bytes)
 
@@ -19,8 +19,8 @@ test("encode and decode", async ({ message }) => {
 
   const wasm = fromWasm(Base64Wasm)
 
-  const encodedb = wasm.encodeUnpaddedOrThrow(new Uint8Array([1, 2, 3, 4, 5, 6, 7]))
-  using decodedb = wasm.decodeUnpaddedOrThrow(encodedb)
+  const encodedb = wasm.encodePaddedOrThrow(new Uint8Array([1, 2, 3, 4, 5, 6, 7]))
+  using decodedb = wasm.decodePaddedOrThrow(encodedb)
 
   console.log(encodedb, decodedb.bytes)
 
